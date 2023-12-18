@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacationCalc</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            font-family: monospace;
+            text-align: center;
+            margin: 100px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            background-color: #333;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            box-sizing: border-box;
+            width: calc(33.33% - 10px);
+            margin-right: 10px;
+        }
+
+        input::placeholder {
+            color: #00ff00;
+        }
+
+        input:focus {
+            border: 2px solid #4caf50;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="date" id="startDate" placeholder="Start date">
+        <input type="number" id="duration" placeholder="Duration">
+        <input type="date" id="endDate" placeholder="End date">
+    </div>
+    <button onclick="calculateVacation()">Calculate</button>
+    <button onclick="resetFields()">Reset</button>
+
+    <div id="result"></div>
+
+    <script>
+        function calculateVacation() {
+            var startDateInput = document.getElementById('startDate').value;
+            var duration = parseInt(document.getElementById('duration').value);
+            var endDateInput = document.getElementById('endDate').value;
+
+            var startDate = new Date(startDateInput);
+            var endDate = new Date(endDateInput);
+
+            if (startDate.getDay() === 0 || endDate.getDay() === 0) {
+                alert('One of the dates falls on Sunday. Please check your dates.');
+                return;
+            }
+
+            if (startDateInput && duration) {
+                endDate = new Date(startDate);
+                endDate.setDate(startDate.getDate() + duration - 1);
+            } else if (endDateInput && duration) {
+                startDate = new Date(endDate);
+                startDate.setDate(endDate.getDate() - duration + 1);
+            } else if (startDateInput && endDateInput) {
+                duration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            } else {
+                alert('Please enter two of the three dates and the duration of your vacation.');
+                return;
+            }
+
+            document.getElementById('result').innerHTML = 'Start date: ' + startDate.toDateString() +
+                                                            '<br>Duration: ' + duration + ' days' +
+                                                            '<br>End date: ' + endDate.toDateString();
+
+            document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+            document.getElementById('duration').value = duration;
+            document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+        }
+
+        function resetFields() {
+            document.getElementById('startDate').value = '';
+            document.getElementById('duration').value = '';
+            document.getElementById('endDate').value = '';
+            document.getElementById('result').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
