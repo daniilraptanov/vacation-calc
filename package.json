@@ -1,0 +1,13 @@
+{
+    "name": "vacation-calc",
+    "version": "0.1.0",
+    "private": false,
+    "homepage": "https://daniilraptanov.github.io/vacation-calc/",
+    "dependencies": {},
+    "scripts": {
+      "deploy": "gh-pages -d build"
+    },
+    "devDependencies": {
+      "gh-pages": "^6.0.0"
+    }
+}
